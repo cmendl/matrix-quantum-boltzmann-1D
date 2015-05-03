@@ -1,0 +1,45 @@
+
+BASEFILES = boltzmann_ode.o collision.o interpolation.o matrix.o util.o
+
+# uncomment to use Intel compiler
+# CC = icc
+
+# compiler options (debug builds for testing)
+CCOPTS = -Wall -m64 -lm -g -DDEBUG -D_DEBUG
+
+
+all: proj_collision_contour_test proj_collision_integrand_test proj_interpolation_test proj_matrix_test
+
+
+proj_collision_contour_test: ${BASEFILES} collision_contour_test.o
+	${CC} -I../include ${CCOPTS} -o collision_contour_test $?
+
+proj_collision_integrand_test: ${BASEFILES} collision_integrand_test.o
+	${CC} -I../include ${CCOPTS} -o collision_integrand_test $?
+
+proj_interpolation_test: ${BASEFILES} interpolation_test.o
+	${CC} -I../include ${CCOPTS} -o interpolation_test $?
+
+proj_matrix_test: ${BASEFILES} matrix_test.o
+	${CC} -I../include ${CCOPTS} -o matrix_test $?
+
+
+collision_contour_test.o: collision_contour_test.c
+	${CC} -c -I../include ${CCOPTS} $<
+
+collision_integrand_test.o: collision_integrand_test.c
+	${CC} -c -I../include ${CCOPTS} $<
+
+interpolation_test.o: interpolation_test.c
+	${CC} -c -I../include ${CCOPTS} $<
+
+matrix_test.o: matrix_test.c
+	${CC} -c -I../include ${CCOPTS} $<
+
+
+%.o: ../src/%.c
+	${CC} -c -I../include ${CCOPTS} $<
+
+
+clean:
+	rm *.o

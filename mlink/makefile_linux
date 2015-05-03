@@ -1,0 +1,45 @@
+
+# adapt path to your Mathematica installation
+MATHSYSTEMDIR = /usr/applic/packages/mathematica/10.0.0/SystemFiles
+
+# set this value with the result of evaluating $SystemID
+SYS = Linux-x86-64
+
+CADDSDIR = ${MATHSYSTEMDIR}/Links/MathLink/DeveloperKit/${SYS}/CompilerAdditions
+MATHLDIR = ${MATHSYSTEMDIR}/Libraries/${SYS}
+
+# set these with appropriate libs for your system
+EXTRALIBS = -lm -lpthread -lrt -ldl -luuid
+MLLIB = ML64i4
+
+MPREP = ${CADDSDIR}/mprep
+
+CCOPTS = -Wall -m64 -O3
+
+all: matrix.o collision.o boltzmann_ode.o interpolation.o util.o boltzmann_mlink_linux.o boltzmannML.o
+	${CC} ${CCOPTS} -L${CADDSDIR} -L${MATHLDIR} -l${MLLIB} ${EXTRALIBS} -o ${SYS}/boltzmannML $?
+
+matrix.o: ../src/matrix.c
+	${CC} -c -I${CADDSDIR} -I../include ${CCOPTS} $<
+
+collision.o: ../src/collision.c
+	${CC} -c -I${CADDSDIR} -I../include ${CCOPTS} $<
+
+boltzmann_ode.o: ../src/boltzmann_ode.c
+	${CC} -c -I${CADDSDIR} -I../include ${CCOPTS} $<
+
+interpolation.o: ../src/interpolation.c
+	${CC} -c -I${CADDSDIR} -I../include ${CCOPTS} $<
+
+util.o: ../src/util.c
+	${CC} -c -I${CADDSDIR} -I../include ${CCOPTS} $<
+
+.c.o:
+	${CC} -c -I${CADDSDIR} -I../include ${CCOPTS} $<
+
+boltzmann_mlink_linux.c: boltzmann.tm
+	${MPREP} -o $@ $?
+
+
+clean:
+	rm *.o

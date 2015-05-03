@@ -1,0 +1,451 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     11648,        442]
+NotebookOptionsPosition[     10012,        379]
+NotebookOutlinePosition[     10355,        394]
+CellTagsIndexPosition[     10312,        391]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Reference implementation of matrix operations", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["General definitions", "Subsection"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", "commutator", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Comm", "[", 
+    RowBox[{"A_", ",", "B_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"A", ".", "B"}], "-", 
+    RowBox[{"B", ".", "A"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"anti", "-", "commutator"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"AntiComm", "[", 
+    RowBox[{"A_", ",", "B_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"A", ".", "B"}], "+", 
+    RowBox[{"B", ".", "A"}]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SubscriptBox["\[Sigma]", "0"], "=", 
+   RowBox[{"IdentityMatrix", "[", "2", "]"}]}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Pauli", " ", "matrices"}], " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     SubscriptBox["\[Sigma]", "1"], "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}]}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox["\[Sigma]", "2"], "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{"-", "\[ImaginaryI]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\[ImaginaryI]", ",", "0"}], "}"}]}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     SubscriptBox["\[Sigma]", "3"], "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{"-", "1"}]}], "}"}]}], "}"}]}], ";"}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"VectorToMatrix", "[", 
+   RowBox[{"{", 
+    RowBox[{"w0_", ",", "w1_", ",", "w2_", ",", "w3_"}], "}"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"w0", " ", 
+    SubscriptBox["\[Sigma]", "0"]}], "+", 
+   RowBox[{"w1", " ", 
+    SubscriptBox["\[Sigma]", "1"]}], "+", 
+   RowBox[{"w2", " ", 
+    SubscriptBox["\[Sigma]", "2"]}], "+", 
+   RowBox[{"w3", " ", 
+    SubscriptBox["\[Sigma]", "3"]}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"BlochVector", "[", "A_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Tr", "[", 
+     RowBox[{"A", ".", 
+      SubscriptBox["\[Sigma]", "#"]}], "]"}], "&"}], "/@", 
+   RowBox[{"Range", "[", 
+    RowBox[{"0", ",", "3"}], "]"}]}]}]], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", "check", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Table", "[", 
+     RowBox[{
+      SubscriptBox["x", "i"], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "0", ",", "3"}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"FullSimplify", "[", 
+    RowBox[{
+     RowBox[{
+      FractionBox["1", "2"], 
+      RowBox[{"BlochVector", "[", 
+       RowBox[{"VectorToMatrix", "[", "%", "]"}], "]"}]}], "-", "%"}], 
+    "]"}]}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0", ",", "0", ",", "0", ",", "0"}], "}"}]], "Output"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Examples", "Subsection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   SubscriptBox["A", "mat"], "=", 
+   RowBox[{"VectorToMatrix", "[", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "2", ",", "3", ",", "4"}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"%", "//", "MatrixForm"}]}], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"5", 
+      RowBox[{"2", "-", 
+       RowBox[{"3", " ", "\[ImaginaryI]"}]}]},
+     {
+      RowBox[{"2", "+", 
+       RowBox[{"3", " ", "\[ImaginaryI]"}]}], 
+      RowBox[{"-", "3"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   SubscriptBox["B", "mat"], "=", 
+   RowBox[{"VectorToMatrix", "[", 
+    RowBox[{"{", 
+     RowBox[{"2", ",", "3", ",", 
+      RowBox[{"-", "5"}], ",", "7"}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"%", "//", "MatrixForm"}]}], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"9", 
+      RowBox[{"3", "+", 
+       RowBox[{"5", " ", "\[ImaginaryI]"}]}]},
+     {
+      RowBox[{"3", "-", 
+       RowBox[{"5", " ", "\[ImaginaryI]"}]}], 
+      RowBox[{"-", "5"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[ImaginaryI]", " ", 
+   RowBox[{"Comm", "[", 
+    RowBox[{
+     SubscriptBox["A", "mat"], ",", 
+     SubscriptBox["B", "mat"]}], "]"}]}], "//", "MatrixForm"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"38", 
+      RowBox[{
+       RowBox[{"-", "82"}], "-", 
+       RowBox[{"4", " ", "\[ImaginaryI]"}]}]},
+     {
+      RowBox[{
+       RowBox[{"-", "82"}], "+", 
+       RowBox[{"4", " ", "\[ImaginaryI]"}]}], 
+      RowBox[{"-", "38"}]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "2"], 
+  RowBox[{"BlochVector", "[", 
+   RowBox[{"\[ImaginaryI]", " ", 
+    RowBox[{"Comm", "[", 
+     RowBox[{
+      SubscriptBox["A", "mat"], ",", 
+      SubscriptBox["B", "mat"]}], "]"}]}], "]"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0", ",", 
+   RowBox[{"-", "82"}], ",", "4", ",", "38"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"AntiComm", "[", 
+   RowBox[{
+    SubscriptBox["A", "mat"], ",", 
+    SubscriptBox["B", "mat"]}], "]"}], "//", "MatrixForm"}]], "Input"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"72", 
+      RowBox[{"14", "-", 
+       RowBox[{"2", " ", "\[ImaginaryI]"}]}]},
+     {
+      RowBox[{"14", "+", 
+       RowBox[{"2", " ", "\[ImaginaryI]"}]}], "12"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "2"], 
+  RowBox[{"BlochVector", "[", 
+   RowBox[{"AntiComm", "[", 
+    RowBox[{
+     SubscriptBox["A", "mat"], ",", 
+     SubscriptBox["B", "mat"]}], "]"}], "]"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"42", ",", "14", ",", "2", ",", "30"}], "}"}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Norm", "[", 
+  RowBox[{
+   SubscriptBox["A", "mat"], ",", "\"\<Frobenius\>\""}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"2", " ", 
+  SqrtBox["15"]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{
+   RowBox[{"Norm", "[", 
+    RowBox[{
+     RowBox[{"VectorToMatrix", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        SubscriptBox["x", "0"], ",", 
+        SubscriptBox["x", "1"], ",", 
+        SubscriptBox["x", "2"], ",", 
+        SubscriptBox["x", "3"]}], "}"}], "]"}], ",", "\"\<Frobenius\>\""}], 
+    "]"}], ",", 
+   RowBox[{"Assumptions", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       SubscriptBox["x", "0"], "\[Element]", "Reals"}], ",", 
+      RowBox[{
+       SubscriptBox["x", "1"], "\[Element]", "Reals"}], ",", 
+      RowBox[{
+       SubscriptBox["x", "2"], "\[Element]", "Reals"}], ",", 
+      RowBox[{
+       SubscriptBox["x", "3"], "\[Element]", "Reals"}]}], "}"}]}]}], 
+  "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  SqrtBox["2"], " ", 
+  SqrtBox[
+   RowBox[{
+    SubsuperscriptBox["x", "0", "2"], "+", 
+    SubsuperscriptBox["x", "1", "2"], "+", 
+    SubsuperscriptBox["x", "2", "2"], "+", 
+    SubsuperscriptBox["x", "3", "2"]}]]}]], "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1028, 924},
+WindowMargins->{{Automatic, 430}, {94, Automatic}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 64, 0, 63, "Section"],
+Cell[CellGroupData[{
+Cell[669, 26, 41, 0, 43, "Subsection"],
+Cell[713, 28, 268, 8, 52, "Input"],
+Cell[984, 38, 299, 9, 52, "Input"],
+Cell[1286, 49, 139, 4, 31, "Input"],
+Cell[1428, 55, 958, 33, 92, "Input"],
+Cell[2389, 90, 435, 13, 31, "Input"],
+Cell[2827, 105, 280, 9, 31, "Input"],
+Cell[CellGroupData[{
+Cell[3132, 118, 525, 17, 87, "Input"],
+Cell[3660, 137, 93, 2, 31, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3802, 145, 30, 0, 43, "Subsection"],
+Cell[CellGroupData[{
+Cell[3857, 149, 270, 8, 52, "Input"],
+Cell[4130, 159, 741, 22, 58, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4908, 186, 292, 9, 52, "Input"],
+Cell[5203, 197, 741, 22, 58, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5981, 224, 205, 6, 31, "Input"],
+Cell[6189, 232, 791, 24, 58, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7017, 261, 254, 8, 46, "Input"],
+Cell[7274, 271, 114, 3, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7425, 279, 170, 5, 31, "Input"],
+Cell[7598, 286, 723, 21, 58, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8358, 312, 218, 7, 46, "Input"],
+Cell[8579, 321, 96, 2, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8712, 328, 121, 3, 31, "Input"],
+Cell[8836, 333, 63, 2, 34, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8936, 340, 779, 24, 52, "Input"],
+Cell[9718, 366, 254, 8, 39, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
