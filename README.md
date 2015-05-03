@@ -25,10 +25,10 @@ http://www.opensource.org/licenses/bsd-license.php
 
 References
 ----------
-1. Martin L.R. Fürst, Christian B. Mendl, Herbert Spohn  
+1. Martin L.R. FÃ¼rst, Christian B. Mendl, Herbert Spohn  
    Matrix-valued Boltzmann equation for the Hubbard chain  
    Physical Review E 86, 031122 (2012), [arXiv:1207.6926](http://arxiv.org/abs/1207.6926)
-2. Martin L.R. Fürst, Christian B. Mendl, Herbert Spohn  
+2. Martin L.R. FÃ¼rst, Christian B. Mendl, Herbert Spohn  
    Matrix-valued Boltzmann equation for the nonintegrable Hubbard chain  
    Physical Review E 88, 012108 (2013), [arXiv:1302.2075](http://arxiv.org/abs/1302.2075)
 3. Jianfeng Lu, Christian B. Mendl  
